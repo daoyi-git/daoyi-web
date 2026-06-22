@@ -45,10 +45,8 @@ export function Navbar() {
             priority
           />
           <span className="flex min-w-0 flex-col leading-tight">
-            <span className="truncate font-serif text-base font-bold text-foreground">
-              {/* 窄螢幕顯示簡稱，較寬顯示全名 */}
-              <span className="sm:hidden">{siteConfig.name}</span>
-              <span className="hidden sm:inline">{siteConfig.fullName}</span>
+            <span className="font-serif text-sm font-bold leading-tight text-foreground sm:text-base">
+              {siteConfig.fullName}
             </span>
             <span className="hidden text-[10px] uppercase tracking-wider text-muted-foreground sm:block">
               {siteConfig.nameEn}
