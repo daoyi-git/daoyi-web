@@ -124,14 +124,17 @@ export async function getRandomActivityPhotos(
   const all = await getAllArticles();
   const pool: { src: string; href: string; title: string }[] = [];
 
+  // 蒐集所有文章的所有圖片（本地 + Cloudinary，adapter 的 images 已含兩種）
   for (const article of all) {
-    const cover = article.coverImage || article.images[0];
-    if (cover) {
-      pool.push({
-        src: cover,
-        href: `/blog/${article.slug}`,
-        title: article.title,
-      });
+    const imgs = article.images.length > 0 ? article.images : [article.coverImage];
+    for (const src of imgs) {
+      if (src) {
+        pool.push({
+          src,
+          href: `/blog/${article.slug}`,
+          title: article.title,
+        });
+      }
     }
   }
 
