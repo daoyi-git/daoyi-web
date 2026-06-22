@@ -125,22 +125,34 @@ export function CalendarView({ events }: { events: CalendarEvent[] }) {
                   >
                     {day}
                   </span>
-                  <div className="mt-0.5 flex flex-col gap-0.5 overflow-hidden">
-                    {dayEvents.slice(0, 2).map((e, j) => (
-                      <span
-                        key={j}
-                        className="truncate rounded bg-accent/30 px-1 text-[10px] leading-tight text-primary-deep"
-                        title={e.title}
-                      >
-                        {e.title}
-                      </span>
-                    ))}
-                    {dayEvents.length > 2 && (
-                      <span className="px-1 text-[10px] text-muted-foreground">
-                        +{dayEvents.length - 2}
-                      </span>
-                    )}
-                  </div>
+                  {/* 手機：活動用圓點（不溢出）；桌機：顯示文字標籤 */}
+                  {dayEvents.length > 0 && (
+                    <>
+                      {/* 手機圓點 */}
+                      <div className="mt-1 flex flex-wrap gap-0.5 sm:hidden">
+                        {dayEvents.slice(0, 3).map((_, j) => (
+                          <span key={j} className="size-1.5 rounded-full bg-primary" />
+                        ))}
+                      </div>
+                      {/* 桌機文字標籤 */}
+                      <div className="mt-0.5 hidden flex-col gap-0.5 overflow-hidden sm:flex">
+                        {dayEvents.slice(0, 2).map((e, j) => (
+                          <span
+                            key={j}
+                            className="truncate rounded bg-accent/30 px-1 text-[10px] leading-tight text-primary-deep"
+                            title={e.title}
+                          >
+                            {e.title}
+                          </span>
+                        ))}
+                        {dayEvents.length > 2 && (
+                          <span className="px-1 text-[10px] text-muted-foreground">
+                            +{dayEvents.length - 2}
+                          </span>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               );
             })}
