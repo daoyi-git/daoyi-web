@@ -20,12 +20,17 @@ export function Footer() {
               height={40}
               className="size-10 shrink-0"
             />
-            <span className="font-serif text-lg font-bold text-foreground">
-              {siteConfig.name}
+            <span className="flex flex-col leading-tight">
+              <span className="font-serif text-lg font-bold text-foreground">
+                {siteConfig.fullName}
+              </span>
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                {siteConfig.nameEn}
+              </span>
             </span>
           </div>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            {siteConfig.fullName}　致力於道務推廣與公益關懷。
+            致力於道務推廣與公益關懷。
           </p>
           <a
             href={siteConfig.facebook}

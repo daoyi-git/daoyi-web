@@ -64,7 +64,7 @@ export default async function ArticlePage({
         <div className={heroImage ? "-mt-16 relative" : "pt-12"}>
           <Link
             href="/blog"
-            className="mb-5 inline-flex items-center gap-1 text-sm text-muted-foreground transition hover:text-primary"
+            className="mb-5 inline-flex items-center gap-1 rounded-full bg-black/45 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-sm transition hover:bg-black/60"
           >
             <ChevronLeft className="size-4" aria-hidden="true" />
             返回班會報導

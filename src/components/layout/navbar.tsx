@@ -46,7 +46,9 @@ export function Navbar() {
           />
           <span className="flex min-w-0 flex-col leading-tight">
             <span className="truncate font-serif text-base font-bold text-foreground">
-              {siteConfig.name}
+              {/* 窄螢幕顯示簡稱，較寬顯示全名 */}
+              <span className="sm:hidden">{siteConfig.name}</span>
+              <span className="hidden sm:inline">{siteConfig.fullName}</span>
             </span>
             <span className="hidden text-[10px] uppercase tracking-wider text-muted-foreground sm:block">
               {siteConfig.nameEn}
@@ -116,7 +118,7 @@ export function Navbar() {
                   height={36}
                   className="size-9 shrink-0"
                 />
-                <span className="font-serif text-base font-bold">{siteConfig.name}</span>
+                <span className="font-serif text-sm font-bold leading-snug">{siteConfig.fullName}</span>
               </SheetTitle>
               <nav className="flex flex-col overflow-y-auto p-3" aria-label="行動導覽">
                 {mainNav.map((item) =>
