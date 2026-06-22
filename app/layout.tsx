@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_TC, Noto_Serif_TC } from "next/font/google";
 import { ThemeProvider } from "@/src/components/theme-provider";
+import { Analytics } from "@vercel/analytics/next";
 import { Navbar } from "@/src/components/layout/navbar";
 import { Footer } from "@/src/components/layout/footer";
 import { BackToTop } from "@/src/components/layout/back-to-top";
@@ -54,6 +55,7 @@ export default function RootLayout({
           </div>
           <BackToTop />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
