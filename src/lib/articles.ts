@@ -8,9 +8,28 @@
  * 用法：const articles = await getAllArticles();
  */
 
+import fs from "fs";
+import path from "path";
 import { SORTED_ARTICLES_BY_DATE } from "../../BLOG_CONSTANTS/_ARTICLES_LIST";
 import { getCloudinaryUrl } from "../utils/cloudinary";
 import type { iArticle } from "../shared/interfaces";
+
+/**
+ * 沒有 images 陣列的舊文章：自動讀本地 public/images/blog/{id}/ 資料夾的圖。
+ * （舊版用 fs.readdirSync 的行為，在新版 adapter 補上）
+ */
+function readLocalBlogImages(id: string): string[] {
+  try {
+    const dir = path.join(process.cwd(), "public", "images", "blog", id);
+    const files = fs.readdirSync(dir);
+    return files
+      .filter((f) => /\.(jpe?g|png|webp|gif)$/i.test(f))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+      .map((f) => `/images/blog/${id}/${f}`);
+  } catch {
+    return [];
+  }
+}
 
 export interface UnifiedArticle {
   /** 網址識別：舊文章用原 id，新文章用 Supabase slug */
@@ -45,6 +64,11 @@ function resolveImage(path?: string): string {
 /** 舊靜態 iArticle → UnifiedArticle */
 function mapLegacy(article: iArticle): UnifiedArticle {
   const p = article.preview;
+  // 有 images 陣列就用（Cloudinary）；沒有則嘗試讀本地資料夾（舊文章）
+  const images =
+    article.images && article.images.length > 0
+      ? article.images.map(resolveImage)
+      : readLocalBlogImages(article.id);
   return {
     slug: article.id,
     title: p.articleTitle,
@@ -52,7 +76,7 @@ function mapLegacy(article: iArticle): UnifiedArticle {
     excerpt: p.shortIntro,
     body: null,
     coverImage: resolveImage(p.thumbnail),
-    images: (article.images ?? []).map(resolveImage),
+    images,
     authorName: p.author?.name ?? "道一關懷協會",
     tags: p.tags ? p.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
     date: p.date,
