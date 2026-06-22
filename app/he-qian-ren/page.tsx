@@ -102,23 +102,61 @@ export default function HeQianRenPage() {
       </header>
 
       <article className="prose prose-neutral max-w-none dark:prose-invert prose-headings:font-serif prose-headings:text-foreground prose-p:text-foreground/85 prose-figcaption:text-muted-foreground">
-        {bioBlocks.map((block, i) => (
-          <section key={i} className="clear-both">
-            {block.figure?.float && (
-              <figure className="float-left mb-4 mr-6 w-44 md:w-60">
+        {/* 開頭：照片左 + 前兩段文字右（兩欄，不用 float） */}
+        <div className="not-prose mb-6 flex flex-col gap-6 sm:flex-row">
+          <figure className="m-0 w-44 shrink-0 md:w-56">
+            <Image
+              src={bioBlocks[0].figure!.src}
+              alt={bioBlocks[0].figure!.caption}
+              width={480}
+              height={600}
+              className="w-full rounded-lg shadow-warm"
+            />
+            <figcaption className="mt-2 text-center text-sm text-muted-foreground">
+              {bioBlocks[0].figure!.caption}
+            </figcaption>
+          </figure>
+          <div className="prose prose-neutral min-w-0 max-w-none flex-1 dark:prose-invert prose-headings:font-serif prose-headings:text-foreground prose-p:text-foreground/85 [&>*:first-child]:mt-0">
+            {[bioBlocks[0], bioBlocks[1]].map((block, i) => (
+              <div key={i}>
+                {block.heading && (
+                  <h3 className="mt-6 mb-3 font-serif text-xl font-bold text-foreground first:mt-0">
+                    {block.heading}
+                  </h3>
+                )}
+                {block.paras?.map((p, j) => (
+                  <p key={j} className="mb-3 leading-relaxed text-foreground/85">
+                    {p}
+                  </p>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 「不斷學習」段的兩張並排圖，整寬接在兩欄下方 */}
+        {bioBlocks[1].figures && (
+          <div className="my-8 grid gap-6 md:grid-cols-2">
+            {bioBlocks[1].figures.map((fig, k) => (
+              <figure key={k} className="m-0">
                 <Image
-                  src={block.figure.src}
-                  alt={block.figure.caption}
-                  width={480}
-                  height={600}
+                  src={fig.src}
+                  alt={fig.caption}
+                  width={600}
+                  height={400}
                   className="w-full rounded-lg shadow-warm"
                 />
                 <figcaption className="mt-2 text-center text-sm">
-                  {block.figure.caption}
+                  {fig.caption}
                 </figcaption>
               </figure>
-            )}
+            ))}
+          </div>
+        )}
 
+        {/* 其餘段落：單欄 */}
+        {bioBlocks.slice(2).map((block, i) => (
+          <section key={i}>
             {block.heading && <h3>{block.heading}</h3>}
             {block.paras?.map((p, j) => (
               <p key={j}>{p}</p>
