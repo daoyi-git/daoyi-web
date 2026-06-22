@@ -29,8 +29,8 @@ export async function fetchCalendarFromGoogleSheets(
     // 使用 Google Sheets CSV Export API
     // 格式: https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/export?format=csv&gid={GID}
     const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&gid=${gid}`;
-    
-    const response = await fetch(url);
+
+    const response = await fetch(url, { next: { revalidate: 3600 } });
     
     if (!response.ok) {
       throw new Error(`Failed to fetch Google Sheets data: ${response.status}`);
@@ -79,10 +79,7 @@ function parseCalendarCSV(csvText: string): CalendarEvent[] {
   
   try {
     const rows = parseCSV(csvText);
-    
-    console.log('📊 CSV 總行數:', rows.length);
-    console.log('📊 前 10 行:', rows.slice(0, 10).map((row, i) => `第 ${i} 行: ${row.slice(0, 8).join(' | ')}`));
-    
+
     // 找到各個欄位的索引
     let dateRowIndex = -1;      // 日期/國曆
     let weekdayRowIndex = -1;   // 星期
@@ -112,18 +109,7 @@ function parseCalendarCSV(csvText: string): CalendarEvent[] {
       }
     }
     
-    console.log('📍 欄位索引:', {
-      日期: dateRowIndex,
-      星期: weekdayRowIndex,
-      農曆: lunarRowIndex,
-      中心班會: centerClassRowIndex,
-      講師: teacherRowIndex,
-      工作: workRowIndex,
-      地點: locationRowIndex
-    });
-    
     if (dateRowIndex === -1) {
-      console.warn('❌ 找不到「日期」或「國曆」行');
       return events;
     }
     
@@ -133,10 +119,6 @@ function parseCalendarCSV(csvText: string): CalendarEvent[] {
     const workRow = workRowIndex >= 0 ? rows[workRowIndex] : [];
     const locationRow = locationRowIndex >= 0 ? rows[locationRowIndex] : [];
     const lunarRow = lunarRowIndex >= 0 ? rows[lunarRowIndex] : [];
-    
-    console.log('📅 日期行:', dateRow.slice(0, 15));
-    console.log('📅 中心班會:', centerClassRow.slice(0, 15));
-    console.log('📅 工作:', workRow.slice(0, 15));
     
     // 處理每一欄 (每一個日期)
     // 注意: 同一天可能有多欄 (例如 1/18 有兩欄)
@@ -220,10 +202,8 @@ function parseCalendarCSV(csvText: string): CalendarEvent[] {
       });
     }
     
-    console.log(`📅 解析到 ${events.length} 個活動`);
-    
   } catch (error) {
-    console.error('❌ Error parsing calendar CSV:', error);
+    console.error("Error parsing calendar CSV:", error);
   }
   
   return events;

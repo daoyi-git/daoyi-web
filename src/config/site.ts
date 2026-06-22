@@ -1,5 +1,7 @@
 /** 全站設定與導覽結構（單一來源，Navbar / Footer / 行動選單共用） */
 
+import { version } from "../../package.json";
+
 export const siteConfig = {
   name: "道一關懷協會",
   fullName: "社團法人新北市道一關懷協會",
@@ -8,6 +10,7 @@ export const siteConfig = {
   url: "https://www.daoyi.org.tw",
   logo: "/images/cropped-LOGO.png",
   facebook: "https://www.facebook.com/groups/1418391155044562",
+  version,
 };
 
 export interface NavItem {

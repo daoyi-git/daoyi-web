@@ -62,10 +62,10 @@ export function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <button
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium transition",
+                      "inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium outline-none transition focus-visible:ring-2 focus-visible:ring-primary/50",
                       isActive(pathname, item)
                         ? "text-primary"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary",
+                        : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                     )}
                   >
                     {item.label}
@@ -107,8 +107,8 @@ export function Navbar() {
                 <Menu className="size-5" aria-hidden="true" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
-              <SheetTitle className="flex items-center gap-2.5 px-1">
+            <SheetContent side="right" className="w-72 gap-0 p-0">
+              <SheetTitle className="flex items-center gap-2.5 border-b border-border px-5 py-4">
                 <Image
                   src={siteConfig.logo}
                   alt=""
@@ -118,18 +118,21 @@ export function Navbar() {
                 />
                 <span className="font-serif text-base font-bold">{siteConfig.name}</span>
               </SheetTitle>
-              <nav className="mt-6 flex flex-col gap-1" aria-label="行動導覽">
+              <nav className="flex flex-col overflow-y-auto p-3" aria-label="行動導覽">
                 {mainNav.map((item) =>
                   item.children ? (
-                    <div key={item.label} className="py-1">
-                      <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <div key={item.label} className="mt-2 first:mt-0">
+                      <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         {item.label}
                       </p>
                       {item.children.map((child) => (
                         <SheetClose asChild key={child.href}>
                           <Link
                             href={child.href}
-                            className="block rounded-lg px-5 py-2 text-sm text-foreground hover:bg-secondary"
+                            className={cn(
+                              "block rounded-lg px-5 py-2.5 text-sm hover:bg-secondary",
+                              isActive(pathname, child) ? "text-primary" : "text-foreground",
+                            )}
                           >
                             {child.label}
                           </Link>
@@ -141,7 +144,7 @@ export function Navbar() {
                       <Link
                         href={item.href}
                         className={cn(
-                          "rounded-lg px-3 py-2 text-sm font-medium hover:bg-secondary",
+                          "rounded-lg px-3 py-2.5 text-sm font-medium hover:bg-secondary",
                           isActive(pathname, item) ? "text-primary" : "text-foreground",
                         )}
                       >

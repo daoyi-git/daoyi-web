@@ -3,6 +3,7 @@ import { Noto_Sans_TC, Noto_Serif_TC } from "next/font/google";
 import { ThemeProvider } from "@/src/components/theme-provider";
 import { Navbar } from "@/src/components/layout/navbar";
 import { Footer } from "@/src/components/layout/footer";
+import { BackToTop } from "@/src/components/layout/back-to-top";
 import "./globals.css";
 
 const notoSans = Noto_Sans_TC({
@@ -51,6 +52,7 @@ export default function RootLayout({
             <div className="flex-1">{children}</div>
             <Footer />
           </div>
+          <BackToTop />
         </ThemeProvider>
       </body>
     </html>

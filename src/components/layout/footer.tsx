@@ -56,8 +56,11 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <div className="container mx-auto px-4 py-5 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} {siteConfig.fullName}．版權所有
+        <div className="container mx-auto flex flex-col items-center gap-1 px-4 py-5 text-center text-xs text-muted-foreground sm:flex-row sm:justify-between">
+          <span>© {new Date().getFullYear()} {siteConfig.fullName}．版權所有</span>
+          <span className="tabular-nums text-muted-foreground/70">
+            v{siteConfig.version}
+          </span>
         </div>
       </div>
     </footer>

@@ -60,3 +60,33 @@ export async function getLatestVideos(limit = 5): Promise<Video[]> {
     return [];
   }
 }
+
+/**
+ * 取得完整影片庫（聖樂影音頁用）。
+ * 以舊版 _VIDEOS_LIST 完整清單為基底（數十支），合併 RSS 最新影片去重後回傳，
+ * 確保影音頁同時有「完整清單」與「最新」。
+ */
+export async function getAllVideos(): Promise<Video[]> {
+  const { VIDEOS } = await import("../../BLOG_CONSTANTS/_VIDEOS_LIST");
+
+  const fromList: Video[] = VIDEOS.map((v) => ({
+    id: v.id,
+    title: v.title,
+    thumbnail: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`,
+    url: `https://www.youtube.com/watch?v=${v.id}`,
+    publishedAt: "",
+  }));
+
+  const latest = await getLatestVideos(15);
+
+  // 以 id 去重，RSS 最新的排前面
+  const seen = new Set<string>();
+  const merged: Video[] = [];
+  for (const v of [...latest, ...fromList]) {
+    if (!seen.has(v.id)) {
+      seen.add(v.id);
+      merged.push(v);
+    }
+  }
+  return merged;
+}
