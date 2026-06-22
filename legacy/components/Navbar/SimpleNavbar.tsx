@@ -1,0 +1,98 @@
+/* eslint-disable react/jsx-key */
+import classes from "./Navbar.module.scss";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { combineClasses, transformImagePaths } from "../../utils/utils";
+import { LogoType, THEMES } from "../../shared/enums";
+import LinkTo from "../LinkTo";
+import { useTheme } from "next-themes";
+import { BsFillMoonFill, BsFillSunFill , BsFillShareFill} from "react-icons/bs";
+import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
+import NavDropdown from "../Misc/NavDropdown";
+import { iNavbar, iNavLink, iNavSocials } from "../../shared/interfaces";
+
+
+const SimpleNavbar = ({ openSearch, changeTheme, toggleSideMenu, openSidebar = false, navSetup, onShareClick }: iNavbar) => {
+  const { navLinks, socials, logo } = navSetup;
+  const [openDD, setOpenDD] = useState(false)
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <div className={combineClasses(classes.navbar__container, 'container flex items-center justify-between', "px-2")}>
+      <div className="flex items-center">
+        <div
+          className={combineClasses(classes.mobileBurgerToggle, "mr-5", openSidebar ? classes.mobileBurgerToggle__close : ' ')}
+          onClick={() => toggleSideMenu()}>
+          <AiOutlineMenu className="dark:text-white text-black text-2xl" />
+        </div>
+        <Link href="/">
+          {
+            logo ?
+              logo.type === LogoType.IMAGE ?
+                <div className="flex gap-2 items-center cursor-pointer font-bold">
+                  <img src={theme === THEMES.DARK ? transformImagePaths(logo.logoLight) : transformImagePaths(logo.logo)} alt="" className="cursor-pointer" width="40px" />
+                  <div>
+                    <div>{logo.text}</div>
+                    <div className="text-[12px] pl-[2px]">DAOYI Care Association</div>
+                  </div>
+                </div> :
+                <span className='text-[22px] font-semibold'>{logo.logo}</span>
+              : <span className='text-[22px] font-semibold'>Logo</span>
+          }
+        </Link>
+      </div>
+
+      <div className="flex items-center">
+        <div className='text-[14px] font-normal items-center lg:flex hidden'>
+          {
+            navLinks.map((each: iNavLink, i: any) => (
+              each.type !== 'dropdown' ? !each.newTab ?
+                <LinkTo href={each.path} key={i} passHref className='mx-2 flex items-center gap-1'>
+                  {each.icon && <span className="text-sm">{each.icon}</span>}
+                  {each.label}
+                </LinkTo> :
+                <a href={each.path} key={each.path + 1} target="_blank" rel="noopener noreferrer" className='d-block mx-2 flex-wrap flex items-center gap-1'>
+                  {each.icon && <span className="text-sm">{each.icon}</span>}
+                  {each.label}
+                </a>
+                :
+                <NavDropdown key={i} item={each} floating />
+            ))
+          }
+          {
+            socials &&
+            <div className="ml-5 pt-1">
+              {
+                socials.map((each: iNavSocials, i: any) => (
+                  <a href={each.link} key={i} target="_blank" rel="noopener noreferrer" className='text-[18px] inline-block mr-4'>{each.icon}</a>
+                ))
+              }
+            </div>
+          }
+        </div>
+
+
+        {/* <div className={combineClasses(classes.search_icon_wrapper, 'ml-5 dark:text-white')} onClick={() => openSearch()}>
+          <button name="search-button" aria-label="search button">
+            <AiOutlineSearch className="dark:text-white text-black text-[22px]" />
+          </button>
+        </div> */}
+
+        {/* <div className="" onClick={() => onShareClick()}>
+          <button name="share" aria-label="share page">
+            <BsFillShareFill className="dark:text-white text-black text-[16px] mt-[7px] ml-2 mr-1" />
+          </button>
+        </div> */}
+
+
+        {/* <button name="theme-switch" aria-label="theme button" className={combineClasses(classes.theme_switch, "pl-3 dark:text-white text-black")} onClick={changeTheme}>
+          {
+            theme && theme === 'dark' ? <BsFillSunFill className="text-2xl" /> : <BsFillMoonFill className="text-md " />
+          }
+        </button> */}
+      </div>
+    </div>
+  );
+};
+
+export default SimpleNavbar;
