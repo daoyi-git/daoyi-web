@@ -35,7 +35,7 @@ export function Navbar() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5">
+        <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <Image
             src={siteConfig.logo}
             alt={`${siteConfig.fullName} logo`}
@@ -44,11 +44,11 @@ export function Navbar() {
             className="size-10 shrink-0"
             priority
           />
-          <span className="hidden flex-col leading-tight sm:flex">
-            <span className="font-serif text-base font-bold text-foreground">
+          <span className="flex min-w-0 flex-col leading-tight">
+            <span className="truncate font-serif text-base font-bold text-foreground">
               {siteConfig.name}
             </span>
-            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            <span className="hidden text-[10px] uppercase tracking-wider text-muted-foreground sm:block">
               {siteConfig.nameEn}
             </span>
           </span>

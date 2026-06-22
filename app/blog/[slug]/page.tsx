@@ -53,7 +53,7 @@ export default async function ArticlePage({
             alt={article.title}
             fill
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-[center_30%]"
             priority
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/55 to-transparent" />
