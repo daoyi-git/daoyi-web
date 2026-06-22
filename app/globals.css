@@ -1,0 +1,112 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* 暗色模式以 class 切換（next-themes attribute="class"） */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * 溫暖關懷設計系統 — 與 shadcn/ui token 對齊
+ * shadcn 元件讀 --background / --primary / --card 等語意變數，
+ * 我們把暖橘 / 暖棕配色餵進這些變數，元件即自動套用溫暖主題。
+ */
+:root {
+  --radius: 0.875rem;
+
+  /* shadcn 語意 token（溫暖關懷 · 淺色） */
+  --background: #faf6f0;          /* 米白 */
+  --foreground: #3a3330;          /* 暖墨 */
+  --card: #fdfbf7;                /* 暖白卡片 */
+  --card-foreground: #3a3330;
+  --popover: #fdfbf7;
+  --popover-foreground: #3a3330;
+  --primary: #e08a4b;             /* 暖橘 */
+  --primary-foreground: #fffaf4;
+  --secondary: #f0e6da;           /* 淺暖米 */
+  --secondary-foreground: #5a4f47;
+  --muted: #f0e6da;
+  --muted-foreground: #7a716b;    /* 暖灰 */
+  --accent: #d9a77c;              /* 柔陶土 */
+  --accent-foreground: #3a3330;
+  --destructive: #c0492e;
+  --destructive-foreground: #fffaf4;
+  --border: #e8e0d8;              /* 淺暖灰 */
+  --input: #e8e0d8;
+  --ring: #e08a4b;
+
+  /* 額外：暖棕（主色深，用於 hover / 標題重點） */
+  --primary-deep: #a65a2e;
+}
+
+.dark {
+  --background: #241f1c;          /* 暖深棕黑 */
+  --foreground: #f0e8e0;
+  --card: #2e2825;
+  --card-foreground: #f0e8e0;
+  --popover: #2e2825;
+  --popover-foreground: #f0e8e0;
+  --primary: #e89a5e;             /* 暗色提亮的暖橘 */
+  --primary-foreground: #241f1c;
+  --secondary: #3a322c;
+  --secondary-foreground: #e8ddd2;
+  --muted: #3a322c;
+  --muted-foreground: #b5a89e;
+  --accent: #c08a5e;
+  --accent-foreground: #f0e8e0;
+  --destructive: #e07050;
+  --destructive-foreground: #241f1c;
+  --border: #3d362f;
+  --input: #3d362f;
+  --ring: #e89a5e;
+
+  --primary-deep: #d9a77c;
+}
+
+/* 把 CSS 變數註冊成 Tailwind v4 theme，產生 bg-primary / text-muted-foreground 等工具類 */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-deep: var(--primary-deep);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-noto-sans), "Noto Sans TC", sans-serif;
+  --font-serif: var(--font-noto-serif), "Noto Serif TC", serif;
+
+  --shadow-warm: 0 4px 20px -8px rgb(166 90 46 / 0.18);
+  --shadow-warm-lg: 0 12px 40px -12px rgb(166 90 46 / 0.22);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+  }
+}
