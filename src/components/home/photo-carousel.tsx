@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -13,8 +14,32 @@ interface Photo {
   title: string;
 }
 
-export function PhotoCarousel({ photos }: { photos: Photo[] }) {
-  if (photos.length === 0) return null;
+/** 取最多 count 張隨機照片 */
+function pickRandom(photos: Photo[], count: number): Photo[] {
+  const arr = [...photos];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.slice(0, count);
+}
+
+export function PhotoCarousel({
+  photos,
+  count = 12,
+}: {
+  photos: Photo[];
+  count?: number;
+}) {
+  // 在 client 端隨機抽，每次進頁 / reload 都是不同組（避免 SSR/hydration 不一致：
+  // 首次 render 用穩定前 count 張，掛載後才洗牌）
+  const [shown, setShown] = useState<Photo[]>(() => photos.slice(0, count));
+
+  useEffect(() => {
+    setShown(pickRandom(photos, count));
+  }, [photos, count]);
+
+  if (shown.length === 0) return null;
 
   return (
     <div className="rounded-2xl bg-card/90 p-4 shadow-warm-lg backdrop-blur-sm md:p-5">
@@ -29,10 +54,10 @@ export function PhotoCarousel({ photos }: { photos: Photo[] }) {
         }}
         autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
         pagination={{ clickable: true }}
-        loop={photos.length > 5}
+        loop={shown.length > 5}
         className="daoyi-photo-swiper pb-9"
       >
-        {photos.map((photo, i) => (
+        {shown.map((photo, i) => (
           <SwiperSlide key={photo.src + i}>
             <Link
               href={photo.href}

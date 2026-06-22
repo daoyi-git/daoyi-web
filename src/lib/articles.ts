@@ -115,36 +115,24 @@ export async function getCategories(): Promise<string[]> {
 }
 
 /**
- * 取得隨機活動照片（首頁 hero 照片輪播用）。
- * 從各篇文章圖庫蒐集照片，洗牌後取前 count 張，並附帶來源文章連結。
+ * 取得活動照片池（首頁 hero 照片輪播用）。
+ * 蒐集所有文章的所有圖片（本地 + Cloudinary），回傳完整池，
+ * 由 client 端 PhotoCarousel 每次 reload 隨機抽，附來源文章連結。
  */
-export async function getRandomActivityPhotos(
-  count = 10,
-): Promise<{ src: string; href: string; title: string }[]> {
+export async function getRandomActivityPhotos(): Promise<
+  { src: string; href: string; title: string }[]
+> {
   const all = await getAllArticles();
   const pool: { src: string; href: string; title: string }[] = [];
 
-  // 蒐集所有文章的所有圖片（本地 + Cloudinary，adapter 的 images 已含兩種）
   for (const article of all) {
     const imgs = article.images.length > 0 ? article.images : [article.coverImage];
     for (const src of imgs) {
       if (src) {
-        pool.push({
-          src,
-          href: `/blog/${article.slug}`,
-          title: article.title,
-        });
+        pool.push({ src, href: `/blog/${article.slug}`, title: article.title });
       }
     }
   }
 
-  // 以日期為種子的穩定洗牌，避免每次 SSR/build 結果跳動造成 hydration 不一致
-  const seed = all.length;
-  const shuffled = [...pool].sort((a, b) => {
-    const ha = (a.src.length * 31 + seed) % 97;
-    const hb = (b.src.length * 31 + seed) % 97;
-    return ha - hb || a.src.localeCompare(b.src);
-  });
-
-  return shuffled.slice(0, count);
+  return pool;
 }

@@ -12,7 +12,7 @@ import { siteConfig } from "@/src/config/site";
 export default async function HomePage() {
   const [articles, photos] = await Promise.all([
     getAllArticles(),
-    getRandomActivityPhotos(10),
+    getRandomActivityPhotos(),
   ]);
   const recent = articles.slice(0, 6);
 
