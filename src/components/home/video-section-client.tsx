@@ -26,8 +26,8 @@ export function VideoSectionClient({
   }, [activeId]);
 
   return (
-    <section className="container mx-auto px-4 py-8">
-      <div className="rounded-2xl border border-border bg-card p-6 shadow-warm md:p-8">
+    <section className="container mx-auto px-4 py-10">
+      <div>
         <div className="mb-6 flex items-end justify-between">
           <div className="flex items-center gap-3">
             <span className="grid size-10 place-items-center rounded-xl bg-secondary text-primary">
@@ -65,7 +65,7 @@ export function VideoSectionClient({
                 className="group block w-full text-left"
                 aria-label={`播放：${video.title}`}
               >
-                <div className="relative aspect-video overflow-hidden rounded-xl shadow-warm">
+                <div className="relative aspect-video overflow-hidden rounded-2xl shadow-warm">
                   <Image
                     src={video.thumbnail}
                     alt={video.title}

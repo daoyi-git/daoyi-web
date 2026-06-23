@@ -11,15 +11,18 @@ interface ArticleCardProps {
 
 export function ArticleCard({ article, featured = false }: ArticleCardProps) {
   const href = `/blog/${article.slug}`;
+  const hasImage = Boolean(article.coverImage);
 
   if (featured) {
     return (
       <Link
         href={href}
-        className="group grid overflow-hidden rounded-2xl border border-border bg-card shadow-warm transition hover:shadow-warm-lg md:grid-cols-2"
+        className={`group grid overflow-hidden rounded-2xl border border-border bg-card shadow-warm transition hover:shadow-warm-lg ${
+          hasImage ? "md:grid-cols-2" : ""
+        }`}
       >
-        <div className="relative aspect-[16/10] overflow-hidden md:aspect-auto">
-          {article.coverImage ? (
+        {hasImage && (
+          <div className="relative aspect-[16/10] overflow-hidden md:aspect-auto">
             <Image
               src={article.coverImage}
               alt={article.title}
@@ -27,10 +30,8 @@ export function ArticleCard({ article, featured = false }: ArticleCardProps) {
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover transition duration-500 group-hover:scale-105"
             />
-          ) : (
-            <div className="size-full bg-secondary" />
-          )}
-        </div>
+          </div>
+        )}
         <div className="flex flex-col justify-center gap-3 p-7 md:p-9">
           <div className="flex items-center gap-3 text-sm text-muted-foreground">
             <Badge variant="secondary" className="rounded-full">
@@ -54,8 +55,8 @@ export function ArticleCard({ article, featured = false }: ArticleCardProps) {
       href={href}
       className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-warm transition hover:shadow-warm-lg"
     >
-      <div className="relative aspect-[16/10] overflow-hidden">
-        {article.coverImage ? (
+      {hasImage && (
+        <div className="relative aspect-[16/10] overflow-hidden">
           <Image
             src={article.coverImage}
             alt={article.title}
@@ -63,11 +64,9 @@ export function ArticleCard({ article, featured = false }: ArticleCardProps) {
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover transition duration-500 group-hover:scale-105"
           />
-        ) : (
-          <div className="size-full bg-secondary" />
-        )}
-      </div>
-      <div className="flex flex-1 flex-col gap-2.5 p-5">
+        </div>
+      )}
+      <div className={`flex flex-1 flex-col gap-2.5 p-5 ${hasImage ? "" : "min-h-48 justify-between"}`}>
         <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
           <Badge variant="secondary" className="rounded-full">
             {article.category}

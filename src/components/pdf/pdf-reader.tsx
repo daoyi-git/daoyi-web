@@ -191,7 +191,6 @@ export function PdfReader({ url, title, backHref = "/" }: PdfReaderProps) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, total, showPageInput]);
 
   const ctrlBtn =
@@ -354,7 +353,6 @@ export function PdfReader({ url, title, backHref = "/" }: PdfReaderProps) {
               }}
             >
               {/* 翻頁只換已轉好的圖片，不即時 render canvas（沿用舊版做法，避免空白頁） */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={pages[current]}
                 alt={`${title} 第 ${current + 1} 頁`}

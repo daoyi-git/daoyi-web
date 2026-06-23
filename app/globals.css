@@ -89,8 +89,8 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --font-sans: var(--font-noto-sans), "Noto Sans TC", sans-serif;
-  --font-serif: var(--font-noto-serif), "Noto Serif TC", serif;
+  --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
 
   --shadow-warm: 0 4px 20px -8px rgb(166 90 46 / 0.18);
   --shadow-warm-lg: 0 12px 40px -12px rgb(166 90 46 / 0.22);

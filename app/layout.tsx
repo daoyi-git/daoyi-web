@@ -1,25 +1,10 @@
 import type { Metadata } from "next";
-import { Noto_Sans_TC, Noto_Serif_TC } from "next/font/google";
 import { ThemeProvider } from "@/src/components/theme-provider";
 import { Analytics } from "@vercel/analytics/next";
 import { Navbar } from "@/src/components/layout/navbar";
 import { Footer } from "@/src/components/layout/footer";
 import { BackToTop } from "@/src/components/layout/back-to-top";
 import "./globals.css";
-
-const notoSans = Noto_Sans_TC({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-noto-sans",
-  display: "swap",
-});
-
-const notoSerif = Noto_Serif_TC({
-  subsets: ["latin"],
-  weight: ["500", "700"],
-  variable: "--font-noto-serif",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -38,7 +23,6 @@ export default function RootLayout({
   return (
     <html
       lang="zh-Hant"
-      className={`${notoSans.variable} ${notoSerif.variable}`}
       suppressHydrationWarning
     >
       <body>

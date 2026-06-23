@@ -30,7 +30,8 @@ export default async function HomePage() {
             sizes="100vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-linear-to-b from-background/70 via-background/60 to-background" />
+          <div className="absolute inset-0 bg-linear-to-b from-background/92 via-background/76 to-background md:from-background/70 md:via-background/60" />
+          <div className="absolute inset-y-0 left-0 w-full bg-linear-to-r from-background/80 via-background/35 to-transparent md:w-2/3" />
         </div>
 
         <div className="container mx-auto px-4 pt-20 md:pt-28">
@@ -38,12 +39,12 @@ export default async function HomePage() {
             <p className="mb-5 text-sm font-medium uppercase tracking-widest text-primary">
               社團法人新北市道一關懷協會
             </p>
-            <h1 className="mb-5 font-serif text-4xl font-bold leading-tight text-foreground md:text-5xl">
+              <h1 className="mb-5 font-serif text-4xl font-bold leading-tight text-foreground drop-shadow-sm md:text-5xl md:drop-shadow-none">
               以關懷之心，
               <br />
               行修道之路
             </h1>
-            <p className="mb-8 max-w-xl text-lg leading-relaxed text-foreground/80">
+              <p className="mb-8 max-w-xl text-lg leading-relaxed text-foreground/90 md:text-foreground/80">
               道一關懷協會致力於道務推廣與公益關懷，分享班會報導、經典課程與道務活動的點滴紀實。
             </p>
             <div className="flex flex-wrap gap-3">

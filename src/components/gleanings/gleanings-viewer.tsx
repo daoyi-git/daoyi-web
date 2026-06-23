@@ -2,20 +2,26 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { ZoomIn, ZoomOut, RotateCcw, X, Download } from "lucide-react";
 
 const CLOUDINARY_BASE =
   "https://res.cloudinary.com/dklwgtmj2/image/upload/f_auto,q_auto";
 
-export function GleaningsViewer({
-  img,
-  title,
-}: {
-  img: string;
-  title: string;
-}) {
+export function GleaningsViewer() {
+  const searchParams = useSearchParams();
+  const img = searchParams.get("img");
+  const title = searchParams.get("title") ?? "拾穗集";
   const [loading, setLoading] = useState(true);
+  if (!img) {
+    return (
+      <main className="container mx-auto grid min-h-[60vh] place-items-center px-4">
+        <p className="text-muted-foreground">未指定要檢視的圖冊。</p>
+      </main>
+    );
+  }
+
   const imageUrl = `${CLOUDINARY_BASE}/${img}`;
 
   return (
@@ -112,7 +118,6 @@ export function GleaningsViewer({
                 }}
               >
                 <div className="flex flex-col items-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageUrl}
                     alt={title}

@@ -10,7 +10,10 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   // 避免 hydration 不一致：掛載前不顯示主題相關 icon
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const id = window.setTimeout(() => setMounted(true), 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   const isDark = resolvedTheme === "dark";
 

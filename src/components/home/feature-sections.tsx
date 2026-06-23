@@ -95,8 +95,8 @@ export function FeatureSections() {
                       >
                         {book.title}
                       </span>
-                      <span className="mt-2 text-[9px] uppercase tracking-[0.2em] text-amber-100/60">
-                        DAOYI
+                      <span className="mt-2 text-[9px] font-medium tracking-[0.2em] text-amber-100/60">
+                        道一選讀
                       </span>
                     </div>
                   </div>
@@ -121,7 +121,7 @@ export function FeatureSections() {
             <Link
               key={g.href}
               href={g.href}
-              className="group relative flex h-40 items-center overflow-hidden rounded-2xl border border-border bg-card shadow-warm transition hover:shadow-warm-lg"
+              className="group relative flex min-h-40 items-center overflow-hidden rounded-xl border-y border-border bg-transparent py-4 transition hover:border-primary/40"
             >
               {/* 圖片填滿整卡，文字浮在左側漸層上 */}
               <Image
@@ -131,10 +131,10 @@ export function FeatureSections() {
                 sizes="(max-width: 768px) 100vw, 600px"
                 className="object-cover object-right transition duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-linear-to-r from-card via-card/85 to-transparent" />
-              <div className="relative z-10 flex flex-col gap-1 p-6">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                  Gleaning Collection
+              <div className="absolute inset-0 bg-linear-to-r from-background via-background/90 to-background/20" />
+              <div className="relative z-10 flex flex-col gap-1 px-6">
+                <span className="text-[10px] font-bold tracking-widest text-muted-foreground">
+                  生平事蹟
                 </span>
                 <span className="font-serif text-xl font-bold text-primary-deep transition group-hover:text-primary">
                   {g.name}

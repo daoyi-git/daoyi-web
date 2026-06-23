@@ -36,7 +36,8 @@ export function PhotoCarousel({
   const [shown, setShown] = useState<Photo[]>(() => photos.slice(0, count));
 
   useEffect(() => {
-    setShown(pickRandom(photos, count));
+    const id = window.setTimeout(() => setShown(pickRandom(photos, count)), 0);
+    return () => window.clearTimeout(id);
   }, [photos, count]);
 
   if (shown.length === 0) return null;

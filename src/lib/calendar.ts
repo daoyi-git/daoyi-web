@@ -22,12 +22,8 @@ export async function getCalendarConfig() {
   };
 }
 
-/** 取得所有行事曆活動（Google Sheets，失敗時回傳空陣列） */
+/** 取得所有行事曆活動（Google Sheets，失敗時讓 build 明確失敗） */
 export async function getCalendarEvents(): Promise<CalendarEvent[]> {
-  try {
-    const { spreadsheetId, gid } = await getCalendarConfig();
-    return await fetchCalendarFromGoogleSheets(spreadsheetId, gid);
-  } catch {
-    return [];
-  }
+  const { spreadsheetId, gid } = await getCalendarConfig();
+  return fetchCalendarFromGoogleSheets(spreadsheetId, gid);
 }

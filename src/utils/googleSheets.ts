@@ -25,27 +25,24 @@ export async function fetchCalendarFromGoogleSheets(
   spreadsheetId: string,
   gid: string = '1575785136' // 新的行事曆分頁 GID
 ): Promise<CalendarEvent[]> {
-  try {
-    // 使用 Google Sheets CSV Export API
-    // 格式: https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/export?format=csv&gid={GID}
-    const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&gid=${gid}`;
+  // 使用 Google Sheets CSV Export API
+  // 格式: https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/export?format=csv&gid={GID}
+  const url = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&gid=${gid}`;
 
-    const response = await fetch(url, { next: { revalidate: 3600 } });
-    
-    if (!response.ok) {
-      throw new Error(`Failed to fetch Google Sheets data: ${response.status}`);
-    }
-    
-    const csvText = await response.text();
-    
-    // 解析 CSV 資料
-    const events = parseCalendarCSV(csvText);
-    
-    return events;
-  } catch (error) {
-    console.error('Error fetching calendar from Google Sheets:', error);
-    return [];
+  const response = await fetch(url, { next: { revalidate: 3600 } });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Google Sheets data: ${response.status}`);
   }
+
+  const csvText = await response.text();
+  const events = parseCalendarCSV(csvText);
+
+  if (events.length === 0) {
+    throw new Error("Google Sheets calendar data parsed to zero events");
+  }
+
+  return events;
 }
 
 /**
