@@ -42,6 +42,10 @@ export default async function ArticlePage({
 
   const heroImage = article.images[0] ?? article.coverImage;
   const galleryImages = article.images.length > 1 ? article.images.slice(1) : [];
+  const heroImageClassName =
+    article.slug === "260628"
+      ? "object-cover object-[center_70%]"
+      : "object-cover object-[center_30%]";
 
   return (
     <main className="pb-8">
@@ -53,7 +57,7 @@ export default async function ArticlePage({
             alt={article.title}
             fill
             sizes="100vw"
-            className="object-cover object-[center_30%]"
+            className={heroImageClassName}
             priority
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/55 to-transparent" />

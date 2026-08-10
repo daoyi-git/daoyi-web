@@ -32,6 +32,56 @@ import { MAYUR, RUPALI } from "./_BLOG_SETUP";
 // clear this article list and add your own
 export const ARTICLES_LIST: iArticle[] = [
   {
+    id: '260628',
+    path: "/blog/260628",
+    preview: {
+      author: RUPALI,
+      date: "06-28-2026",
+      articleTitle: "吳老前人成道10週年紀念活動",
+      tags: "道一, 道務活動, 吳老前人",
+      thumbnail: "daoyi-web/blog/20260628/1",
+      shortIntro:
+        "今日興毅總壇舉行「吳老前人成道10週年紀念」活動，來自海內外道親約1200多位前賢參加（含表演人員以及各項工作人員）。道一同修於活動結束後，感謝顏經理、何經理慈悲帶領同修到台北市松江路「養心茶樓蔬食飲茶」用餐。感謝慈悲！",
+      category: "道務活動",
+    },
+    seo: {
+      title: "吳老前人成道10週年紀念活動",
+      description:
+        "今日興毅總壇舉行「吳老前人成道10週年紀念」活動，來自海內外道親約1200多位前賢參加。",
+      keywords: "道一, 道務活動, 吳老前人",
+      ogImage: "daoyi-web/blog/20260628/1",
+    },
+    images: [
+      "daoyi-web/blog/20260628/1",
+      "daoyi-web/blog/20260628/2",
+      "daoyi-web/blog/20260628/3",
+      "daoyi-web/blog/20260628/4",
+      "daoyi-web/blog/20260628/5",
+      "daoyi-web/blog/20260628/6",
+      "daoyi-web/blog/20260628/7",
+      "daoyi-web/blog/20260628/8",
+      "daoyi-web/blog/20260628/9",
+      "daoyi-web/blog/20260628/10",
+      "daoyi-web/blog/20260628/11",
+      "daoyi-web/blog/20260628/12",
+      "daoyi-web/blog/20260628/13",
+      "daoyi-web/blog/20260628/14",
+      "daoyi-web/blog/20260628/15",
+      "daoyi-web/blog/20260628/16",
+      "daoyi-web/blog/20260628/17",
+      "daoyi-web/blog/20260628/18",
+      "daoyi-web/blog/20260628/19",
+      "daoyi-web/blog/20260628/20",
+      "daoyi-web/blog/20260628/21",
+      "daoyi-web/blog/20260628/22",
+      "daoyi-web/blog/20260628/23",
+      "daoyi-web/blog/20260628/24",
+      "daoyi-web/blog/20260628/25",
+      "daoyi-web/blog/20260628/26",
+      "daoyi-web/blog/20260628/27",
+    ],
+  },
+  {
     id: '260618',
     path: "/blog/260618",
     preview: {
