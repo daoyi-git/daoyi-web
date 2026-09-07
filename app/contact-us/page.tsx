@@ -8,6 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function ContactUsPage() {
+  const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(siteConfig.address)}&output=embed`;
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.address)}`;
+
   return (
     <main className="container mx-auto px-4 py-12 md:py-16">
       <header className="mb-10 max-w-2xl">
@@ -99,19 +102,64 @@ export default function ContactUsPage() {
           <p className="mt-6 text-sm text-muted-foreground">感謝慈悲護持！</p>
         </section>
       </div>
-      <section className="mt-10 border-t border-border pt-8 dark:border-border" aria-labelledby="contact-heading">
-        <h2 id="contact-heading" className="font-serif text-xl font-bold text-foreground dark:text-foreground">
-          聯絡本會
-        </h2>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
-          如有捐款、收據或其他協會相關問題，歡迎來信聯絡。
-        </p>
-        <a
-          href={`mailto:${siteConfig.email}`}
-          className="mt-3 inline-block max-w-full break-all rounded-sm text-base font-medium text-primary underline underline-offset-4 transition hover:text-primary-deep dark:text-primary dark:hover:text-primary-deep focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
-        >
-          {siteConfig.email}
-        </a>
+      <section
+        className="mt-10 border-t border-border pt-8 dark:border-border"
+        aria-labelledby="contact-heading"
+      >
+        <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] md:items-start">
+          <div>
+            <h2
+              id="contact-heading"
+              className="font-serif text-xl font-bold text-foreground dark:text-foreground"
+            >
+              聯絡本會
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
+              如有捐款、收據或其他協會相關問題，歡迎來信聯絡。
+            </p>
+            <dl className="mt-6 space-y-5">
+              <div>
+                <dt className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  聯絡信箱
+                </dt>
+                <dd className="mt-1">
+                  <a
+                    href={`mailto:${siteConfig.email}`}
+                    className="inline-block max-w-full break-all rounded-sm text-base font-medium text-primary underline underline-offset-4 transition hover:text-primary-deep dark:text-primary dark:hover:text-primary-deep focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                  >
+                    {siteConfig.email}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  地址
+                </dt>
+                <dd className="mt-1 text-base leading-relaxed text-foreground">
+                  <a
+                    href={mapLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-sm underline decoration-border underline-offset-4 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                  >
+                    {siteConfig.address}
+                  </a>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className="overflow-hidden rounded-2xl border border-border bg-secondary shadow-warm dark:border-border dark:bg-secondary">
+            <iframe
+              src={mapUrl}
+              title={`${siteConfig.fullName}位置地圖`}
+              className="h-80 w-full border-0 md:h-96"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
+        </div>
       </section>
     </main>
   );

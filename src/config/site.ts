@@ -11,6 +11,7 @@ export const siteConfig = {
   logo: "/images/cropped-LOGO.png",
   facebook: "https://www.facebook.com/groups/1418391155044562",
   email: "daoyi11026@gmail.com",
+  address: "新北市樹林區中山路2段151巷6弄24號6樓",
   version,
 };
 
