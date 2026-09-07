@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { HandHeart, Landmark, Receipt } from "lucide-react";
+import { siteConfig } from "@/src/config/site";
 
 export const metadata: Metadata = {
   title: "贊助本會",
@@ -98,6 +99,20 @@ export default function ContactUsPage() {
           <p className="mt-6 text-sm text-muted-foreground">感謝慈悲護持！</p>
         </section>
       </div>
+      <section className="mt-10 border-t border-border pt-8 dark:border-border" aria-labelledby="contact-heading">
+        <h2 id="contact-heading" className="font-serif text-xl font-bold text-foreground dark:text-foreground">
+          聯絡本會
+        </h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground dark:text-muted-foreground">
+          如有捐款、收據或其他協會相關問題，歡迎來信聯絡。
+        </p>
+        <a
+          href={`mailto:${siteConfig.email}`}
+          className="mt-3 inline-block max-w-full break-all rounded-sm text-base font-medium text-primary underline underline-offset-4 transition hover:text-primary-deep dark:text-primary dark:hover:text-primary-deep focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+        >
+          {siteConfig.email}
+        </a>
+      </section>
     </main>
   );
 }

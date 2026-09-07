@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook } from "lucide-react";
+import { Facebook, Mail } from "lucide-react";
 import { siteConfig, mainNav } from "@/src/config/site";
 
 export function Footer() {
@@ -41,6 +41,15 @@ export function Footer() {
             <Facebook className="size-4" aria-hidden="true" />
             Facebook 社團
           </a>
+          <div className="mt-3">
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="inline-flex max-w-full items-center gap-2 rounded-sm text-sm text-muted-foreground transition hover:text-primary dark:hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+            >
+              <Mail className="size-4 shrink-0" aria-hidden="true" />
+              <span className="min-w-0 break-all">{siteConfig.email}</span>
+            </a>
+          </div>
         </div>
 
         <nav aria-label="頁尾導覽">

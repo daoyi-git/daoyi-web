@@ -10,6 +10,7 @@ export const siteConfig = {
   url: "https://www.daoyi.org.tw",
   logo: "/images/cropped-LOGO.png",
   facebook: "https://www.facebook.com/groups/1418391155044562",
+  email: "daoyi11026@gmail.com",
   version,
 };
 
