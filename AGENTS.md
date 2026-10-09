@@ -30,6 +30,12 @@
 ## 文章分類（目前）
 - 道一、經典班會、道務活動
 
+## 新文章照片來源
+- 使用者提供 `YYYYMMDD` 日期時，照片固定從 `D:\Code\道一上傳區\YYYYMMDD` 讀取，不必再次索取完整路徑。
+- 只使用照片，排除影片與重複照片。
+- 使用者提供日期或照片資料夾路徑，即同意將其中選出的照片上傳至道一網站既有 Cloudinary 路徑供網站顯示，不必每次再次詢問。
+- 先完成 Cloudinary 上傳並確認照片網址可讀取，再把 public ID 寫進文章資料；不可預先填入未上傳的照片網址。
+
 ## 元件路徑
 - `src/components/BlogIndexPage/index.tsx` — 部落格首頁
 - `src/components/ArticleCards/ArticleCardCompact.tsx` — 小卡片

@@ -11,6 +11,7 @@
 import fs from "fs";
 import path from "path";
 import { SORTED_ARTICLES_BY_DATE } from "../../BLOG_CONSTANTS/_ARTICLES_LIST";
+import { CURRENT_ARTICLES } from "../content/articles";
 import { getCloudinaryUrl } from "../utils/cloudinary";
 import type { iArticle } from "../shared/interfaces";
 
@@ -85,7 +86,10 @@ function mapLegacy(article: iArticle): UnifiedArticle {
   };
 }
 
-const legacyArticles: UnifiedArticle[] = SORTED_ARTICLES_BY_DATE.map(mapLegacy);
+const legacyArticles: UnifiedArticle[] = [
+  ...CURRENT_ARTICLES,
+  ...SORTED_ARTICLES_BY_DATE,
+].map(mapLegacy);
 
 function byDateDesc(a: UnifiedArticle, b: UnifiedArticle): number {
   return new Date(b.date).getTime() - new Date(a.date).getTime();
