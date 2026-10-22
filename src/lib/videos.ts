@@ -17,6 +17,29 @@ export interface Video {
   thumbnail: string;
   url: string;
   publishedAt: string;
+  category: "activity" | "general";
+}
+
+/** 活動影片即使離開 YouTube RSS 的最新 15 支，影音頁仍會顯示。 */
+const ACTIVITY_VIDEOS: Video[] = [
+  {
+    id: "orrBPwqlpe0",
+    title: "2026年九皇斋",
+    thumbnail: "https://i.ytimg.com/vi/orrBPwqlpe0/hqdefault.jpg",
+    url: "https://www.youtube.com/watch?v=orrBPwqlpe0",
+    publishedAt: "2026-10-22T10:40:27+00:00",
+    category: "activity",
+  },
+];
+const ACTIVITY_VIDEO_IDS = new Set(ACTIVITY_VIDEOS.map((video) => video.id));
+
+function uniqueVideos(videos: Video[]): Video[] {
+  const seen = new Set<string>();
+  return videos.filter((video) => {
+    if (seen.has(video.id)) return false;
+    seen.add(video.id);
+    return true;
+  });
 }
 
 function decodeXml(s: string): string {
@@ -34,7 +57,7 @@ export async function getLatestVideos(limit = 5): Promise<Video[]> {
     const res = await fetch(RSS_URL, {
       next: { revalidate: 60 * 60 * 6 }, // 6 小時更新一次
     });
-    if (!res.ok) return [];
+    if (!res.ok) return ACTIVITY_VIDEOS.slice(0, limit);
 
     const xml = await res.text();
     const entries = xml.split("<entry>").slice(1);
@@ -52,12 +75,16 @@ export async function getLatestVideos(limit = 5): Promise<Video[]> {
         thumbnail: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
         url: `https://www.youtube.com/watch?v=${id}`,
         publishedAt,
+        category: ACTIVITY_VIDEO_IDS.has(id) ? "activity" : "general",
       };
     });
 
-    return videos.filter((v) => v.id).slice(0, limit);
+    return uniqueVideos([
+      ...videos.filter((v) => v.id),
+      ...ACTIVITY_VIDEOS,
+    ]).slice(0, limit);
   } catch {
-    return [];
+    return ACTIVITY_VIDEOS.slice(0, limit);
   }
 }
 
@@ -75,18 +102,11 @@ export async function getAllVideos(): Promise<Video[]> {
     thumbnail: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`,
     url: `https://www.youtube.com/watch?v=${v.id}`,
     publishedAt: "",
+    category: "general",
   }));
 
   const latest = await getLatestVideos(15);
 
-  // 以 id 去重，RSS 最新的排前面
-  const seen = new Set<string>();
-  const merged: Video[] = [];
-  for (const v of [...latest, ...fromList]) {
-    if (!seen.has(v.id)) {
-      seen.add(v.id);
-      merged.push(v);
-    }
-  }
-  return merged;
+  // 以 id 去重，RSS 最新的排前面，活動影片則永久保留在影音頁。
+  return uniqueVideos([...latest, ...ACTIVITY_VIDEOS, ...fromList]);
 }

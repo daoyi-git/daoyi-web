@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Play, X, Video as VideoIcon, Music } from "lucide-react";
+import { Clapperboard, Play, X, Video as VideoIcon, Music } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import type { Video } from "@/src/lib/videos";
 
@@ -12,6 +12,46 @@ export interface SheetMusicItem {
 }
 
 type Tab = "videos" | "sheets";
+
+function VideoCards({
+  videos,
+  onPlay,
+}: {
+  videos: Video[];
+  onPlay: (id: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {videos.map((video) => (
+        <button
+          key={video.id}
+          onClick={() => onPlay(video.id)}
+          className="group block text-left"
+          aria-label={`播放：${video.title}`}
+        >
+          <div className="relative aspect-video overflow-hidden rounded-2xl shadow-warm">
+            <Image
+              src={video.thumbnail}
+              alt={video.title}
+              fill
+              sizes="(max-width: 640px) 100vw, 360px"
+              className="object-cover transition duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/15 transition group-hover:bg-black/30" />
+            <span className="absolute inset-0 grid place-items-center">
+              <span className="grid size-12 place-items-center rounded-full bg-primary/90 text-primary-foreground shadow-warm transition group-hover:scale-110">
+                <Play className="size-5 translate-x-0.5 fill-current" aria-hidden="true" />
+              </span>
+            </span>
+          </div>
+          <p className="mt-3 line-clamp-2 text-sm font-medium leading-snug text-foreground transition group-hover:text-primary">
+            {video.title}
+          </p>
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export function VideoPageClient({
   videos,
@@ -23,6 +63,8 @@ export function VideoPageClient({
   const [tab, setTab] = useState<Tab>("videos");
   const [activeId, setActiveId] = useState<string | null>(null);
   const [activeSheet, setActiveSheet] = useState<SheetMusicItem | null>(null);
+  const activityVideos = videos.filter((video) => video.category === "activity");
+  const generalVideos = videos.filter((video) => video.category === "general");
 
   useEffect(() => {
     const open = activeId || activeSheet;
@@ -40,11 +82,12 @@ export function VideoPageClient({
   const tabBtn = (t: Tab, label: string, icon: React.ReactNode) => (
     <button
       onClick={() => setTab(t)}
+      aria-pressed={tab === t}
       className={cn(
-        "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition",
+        "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:focus-visible:outline-primary",
         tab === t
-          ? "bg-primary text-primary-foreground shadow-warm"
-          : "border border-border text-muted-foreground hover:bg-secondary hover:text-foreground",
+          ? "bg-primary text-primary-foreground shadow-warm dark:bg-primary dark:text-primary-foreground"
+          : "border border-border text-muted-foreground hover:bg-secondary hover:text-foreground dark:border-border dark:hover:bg-secondary dark:hover:text-foreground",
       )}
     >
       {icon}
@@ -67,42 +110,36 @@ export function VideoPageClient({
       </header>
 
       {/* Tabs */}
-      <div className="mb-10 flex flex-wrap gap-3">
+      <div className="mb-10 flex flex-wrap gap-3" aria-label="影音分類">
         {tabBtn("videos", "影片", <VideoIcon className="size-4" aria-hidden="true" />)}
         {sheets.length > 0 &&
           tabBtn("sheets", "聖樂歌譜", <Music className="size-4" aria-hidden="true" />)}
       </div>
 
-      {/* 影片 */}
+      {/* 活動影片與一般影片同頁顯示 */}
       {tab === "videos" && (
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {videos.map((video) => (
-            <button
-              key={video.id}
-              onClick={() => setActiveId(video.id)}
-              className="group block text-left"
-              aria-label={`播放：${video.title}`}
+        <div className="space-y-12">
+          {activityVideos.length > 0 && (
+            <section aria-labelledby="activity-videos-heading">
+              <h2
+                id="activity-videos-heading"
+                className="mb-5 flex items-center gap-2 font-serif text-xl font-semibold text-foreground dark:text-foreground"
+              >
+                <Clapperboard className="size-5 text-primary dark:text-primary" aria-hidden="true" />
+                活動影片
+              </h2>
+              <VideoCards videos={activityVideos} onPlay={setActiveId} />
+            </section>
+          )}
+          <section aria-labelledby="general-videos-heading">
+            <h2
+              id="general-videos-heading"
+              className="mb-5 font-serif text-xl font-semibold text-foreground dark:text-foreground"
             >
-              <div className="relative aspect-video overflow-hidden rounded-2xl shadow-warm">
-                <Image
-                  src={video.thumbnail}
-                  alt={video.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 360px"
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/15 transition group-hover:bg-black/30" />
-                <span className="absolute inset-0 grid place-items-center">
-                  <span className="grid size-12 place-items-center rounded-full bg-primary/90 text-primary-foreground shadow-warm transition group-hover:scale-110">
-                    <Play className="size-5 translate-x-0.5 fill-current" aria-hidden="true" />
-                  </span>
-                </span>
-              </div>
-              <p className="mt-3 line-clamp-2 text-sm font-medium leading-snug text-foreground transition group-hover:text-primary">
-                {video.title}
-              </p>
-            </button>
-          ))}
+              影片典藏
+            </h2>
+            <VideoCards videos={generalVideos} onPlay={setActiveId} />
+          </section>
         </div>
       )}
 
